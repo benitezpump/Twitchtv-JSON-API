@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="js/libs/jquery-1.11.3.js"></script>
+    <script src="js/libs/angular.min.js"></script>
+    <link rel="stylesheet" href="css/metro.css"/>
+    <link href="css/metro-icons.css" rel="stylesheet">
+    <script src="js/metro.js"></script>
+</head>
+<body ng-app="TwitchApp">
+
+
+<div class="tabcontrol2" data-role="tabControl" ng-controller="MainController">
+
+    <ul class="tabs">
+        <li><a href="#all">All</a></li>
+        <li><a href="#online">Online</a></li>
+        <li><a href="#offline">Offline</a></li>
+    </ul>
+
+    <div class="frames">
+        <div class="frame" id="all">
+            <div class="input-control text" data-role="input">
+                <input type="text" ng-model="all">
+                <button class="button"><span class="mif-search"></span></button>
+            </div>
+            <div class="listview">
+                <div class="list-group">
+                    <div class="list-group-content">
+                        <div class="list" ng-repeat="x in datas | filter:all as results">
+
+                            <div class="if" ng-if="x.stream == null">
+                                <a href={{"http://www.twitch.tv/"+x.name}} style="width: 100%">
+                                        <img ng-src={{x.logo}} class="list-icon">
+                                        <span class="list-title">
+                                            {{x.display_name}}
+                                        </span>
+                                        <div class="list-data">
+                                            Offline
+                                        </div>
+                                </a>
+                            </div>
+
+                            <div class="else" ng-if="x.stream != null">
+                                <a href={{"http://www.twitch.tv/"+x.stream.channel.name}} style="width: 100%">
+                                    <img ng-src={{x.stream.channel.logo}} class="list-icon">
+                                        <span class="list-title">
+                                            {{x.stream.channel.display_name}}
+                                        </span>
+                                    <div class="list-data">
+                                        {{x.stream.channel.status}}
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="frame" id="online">
+            <div class="input-control text" data-role="input">
+                <input type="text" ng-model="e">
+                <button class="button"><span class="mif-search"></span></button>
+            </div>
+            <div class="listview">
+                <div class="list-group">
+                    <div class="list-group-content">
+                        <div class="list" ng-repeat="a in online | filter:e as results">
+                            <a href={{"http://www.twitch.tv/"+a.stream.channel.name}} style="width: 100%; height: 100%  ">
+                                <img src={{a.stream.channel.logo}} class="list-icon">
+                                <span class="list-title">{{a.stream.channel.display_name}}</span>
+                                <div class="list-data">
+                                    {{a.stream.channel.status}}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="frame" id="offline">
+            <div class="input-control text" data-role="input">
+                <input type="text" ng-model="g">
+                <button class="button"><span class="mif-search"></span></button>
+            </div>
+            <div class="listview">
+                <div class="list-group">
+                    <div class="list-group-content">
+                        <div class="list" ng-repeat="b in offline | filter:g as results">
+                            <a href={{"http://www.twitch.tv/"+b.name}} style="width: 100%">
+                            <img src={{b.logo}} class="list-icon">
+                            <span class="list-title">{{b.display_name}}</span>
+                            <div class="list-data">
+                                Offline
+                            </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Modules -->
+<script src="js/app.js"></script>
+
+<!-- Controllers -->
+<script src="js/controllers/MainController.js"></script>
+
+<!-- Services -->
+<script src="js/services/twitchTv.js"></script>
+<script src="js/services/userData.js"></script>
+
+
+</body>
+</html>
